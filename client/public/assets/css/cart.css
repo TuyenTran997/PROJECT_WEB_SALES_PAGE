@@ -1,0 +1,76 @@
+.product-title {
+    margin-top: 20px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    font-weight: 600;
+    background-color: var(--primary-color);
+    border-radius: 5px;
+    color: var(--white-color);
+}
+
+.cart-product {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    border-radius: 5px;
+    border: 1px solid var(--primary-color);
+}
+
+.product-item {
+    display: flex;
+    align-items: center;
+    font-size: 1.4rem;
+}
+
+.product-item img {
+    margin-right: 20px;
+    width: 100px;
+    height: 100px;
+}
+
+.product-item p {
+    width: 30%;
+    margin: 0 0;
+}
+
+.product-item-quatity input {
+    width: 50%;
+    border-radius: 5px;
+    border: none;
+    padding-left: 12px;
+}
+
+.summary-section {
+    font-size: 1.4rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.summary-section p {
+    margin: 0 0;
+    padding-left: 0;
+}
+
+.summary-section button {
+    background-color: var(--primary-color);
+    color: var(--white-color);
+    border: none;
+    outline: none;
+    height: 30px;
+    border-radius: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-bottom: 10px;
+}
+
+.summary-section input {
+    border: 1px solid var(--primary-color);
+    outline: none;
+    height: 30px;
+    border-radius: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-bottom: 10px;
+}

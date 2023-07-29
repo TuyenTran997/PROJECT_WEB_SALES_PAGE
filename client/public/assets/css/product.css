@@ -1,0 +1,118 @@
+.product-item-info {
+    font-size: 1.4rem;
+}
+
+.product-item-title {
+    font-size: 1.6rem;
+    font-weight: 600;
+}
+
+.product-checkbox {
+    display: flex;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.product-item-info__price-old {
+    padding: 0;
+}
+
+.product-item-info__description {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border-left: 3px solid var(--primary-color);
+    padding: 4px;
+}
+
+.product-item-info__description p {
+    margin: 0;
+}
+
+.product-item__promotion {
+    padding-left: 0;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.product-item__promotion span {
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: red;
+}
+
+.product-item__choose {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    height: 30px;
+}
+
+.product-item__choose input {
+    width: 50px;
+    height: 30px;
+    outline: none;
+    border: 1px solid var(--primary-color);
+    border-radius: 5px;
+    margin-right: 10px;
+    margin-left: 5px;
+    padding-left: 12px;
+}
+
+.product-item__choose button {
+    height: 30px;
+    background-color: var(--primary-color);
+    color: var(--white-color);
+    outline: none;
+    border: 1px solid var(--primary-color);
+    border-radius: 5px;
+    margin-right: 10px;
+    margin-left: 5px;
+}
+
+.product-comment-title {
+    font-size: 1.8rem;
+    font-weight: 900;
+    border-bottom: 2px solid var(--border-color);
+}
+
+.product-comment-title p {
+    display: inline-block;
+    margin-bottom: 5px;
+    border-bottom: 2px solid red;
+}
+
+.product-comment-write textarea {
+    margin-top: 10px;
+    font-size: 1.6rem;
+    width: 100%;
+    height: 90px;
+    border: none;
+    padding: 8px;
+}
+
+
+.product-comment button {
+    height: 40px;
+    background-color: var(--primary-color);
+    color: var(--white-color);
+    outline: none;
+    border: 1px solid var(--primary-color);
+    border-radius: 5px;
+    font-size: 1.4rem;
+}
+
+.product-comment button:hover {
+    color: rgb(248, 183, 63);
+}
+
+.render-comment {
+    padding: 10px;
+    margin-top: 10px;
+    font-size: 1.4rem;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+}
+
+
+.render-comment span {
+    font-size: 1rem;
+}
