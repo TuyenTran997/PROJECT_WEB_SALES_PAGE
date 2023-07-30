@@ -9,7 +9,7 @@ export const changeDate = (date) => {
         month = `0${month}`;
     };
     let year = today.getFullYear();
-    return `${day}- ${month}- ${year}`;
+    return `${day}-${month}-${year}`;
 };
 export const changeDate1 = (date) => {
     let today = new Date(date);
@@ -22,7 +22,7 @@ export const changeDate1 = (date) => {
         month = `0${month}`;
     };
     let year = today.getFullYear();
-    return `${year}- ${month}- ${day}`;
+    return `${year}-${month}-${day}`;
 };
 
 

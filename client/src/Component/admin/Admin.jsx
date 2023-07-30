@@ -148,7 +148,7 @@ export default function Admin() {
                     </footer>
                 </div>
             </div >
-            <FormCategory />
+            {/* <FormCategory /> */}
         </>
     )
 }

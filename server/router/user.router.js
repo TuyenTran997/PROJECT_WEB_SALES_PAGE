@@ -13,13 +13,57 @@ userRoute.use(bodyParser.urlencoded({ extended: true }));
 userRoute.use(cors({ credentials: true, origin: true }));
 
 userRoute.get('/', (req, res) => {
+    const searchName = req.query.searchName;
+    const limit = +req.query.LIMIT;
+    const page = +req.query.OFFSET;
+    // offset là vị trí bắt đầu lấy
+    const offset = (page - 1) * limit;
+    console.log(limit, offset);
     try {
-        database.query('call Proc_user_getAllUser()', (err, result) => {
-            return res.status(200).json({
-                status: 200,
-                data: result[0]
-            });
-        })
+        if (searchName === '') {
+            database.query('call Proc_user_getAllUser(?, ?)', [limit, offset], (err, result) => {
+                if (err) {
+                    return res.status(500).json({
+                        status: 500,
+                        messageDEV: "Lỗi hệ thống",
+                        error: err
+                    })
+                }
+                else {
+                    database.query('call Proc_user_getTotalRecord', (errCount, resultCount) => {
+                        if (errCount) {
+                            return res.status(500).json({
+                                status: 500,
+                                messageDEV: "Lỗi hệ thống",
+                                error: errCount
+                            })
+                        } else {
+                            const totalRecord = resultCount[0][0].total;
+                            const totalPage = Math.ceil(totalRecord / limit);
+                            const data = result[0]
+                            console.log(data);
+                            return res.status(200).json({
+                                status: 200,
+                                totalPage: totalPage,
+                                totalRecord: totalRecord,
+                                message: 'Lấy dữ liệu thành công',
+                                data: data
+                            })
+
+                        }
+                    })
+                }
+            })
+        } else
+            if (searchName !== '') {
+                database.query('call Proc_user_getSearchUser(?)', searchName, (err, result) => {
+                    return res.status(200).json({
+                        status: 200,
+                        message: 'Lấy dữ liệu thành công',
+                        data: result[0]
+                    })
+                })
+            }
     } catch (error) {
         return res.status(500).json({
             status: 500,
@@ -27,7 +71,8 @@ userRoute.get('/', (req, res) => {
             error: error
         });
     }
-})
+});
+
 
 // Lấy bản ghi user theo id
 userRoute.get('/:id', (req, res) => {
