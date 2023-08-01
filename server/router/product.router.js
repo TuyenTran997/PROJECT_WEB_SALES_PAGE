@@ -28,12 +28,16 @@ productRouter.use(bodyParser.json());
 productRouter.use(bodyParser.urlencoded({ extended: true }));
 productRouter.use(cors());
 
-productRouter.post('/', (req, res) => {
+productRouter.post('/', upload.single('image'), (req, res) => {
     const productId = uuidv4();
     const productPost = req.body;
-    const product = [productId, productPost.productName, productPost._description, productPost.model, productPost.product_code, productPost.price, productPost.percent_discount, productPost.image, productPost.categoryId, productPost.classifyId, productPost.createdDate, productPost.createdBy, productPost.modifileDate, productPost.modifileBy]
+    const fileName = req.file.filename ? `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}` : null;
+    const product = [productId, productPost.productName, productPost._description, productPost.model, productPost.product_code, productPost.price, productPost.percent_discount, fileName, productPost.categoryId, productPost.classifyId, productPost.createdDate, productPost.createdBy, productPost.modifileDate, productPost.modifileBy, productPost._status]
+    console.log(fileName);
+    console.log("upload success", productPost);
     try {
-        database.query('call Proc_product_createProduct(?,?,?,?,?,?,?,?,?,?,?,?,?,?)', product, (err, result) => {
+        database.query('call Proc_product_createProduct(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)', product, (err, result) => {
+            console.log(err);
             if (err) {
                 return res.status(500).json({
                     status: 500,
@@ -123,5 +127,32 @@ productRouter.get('/', (req, res) => {
         });
     }
 });
+
+productRouter.delete('/:id', (req, res) => {
+    const productId = req.params.id;
+    console.log(productId);
+    try {
+        database.query('call Proc_product_deleteProduct(?)', productId, (err, result) => {
+            if (err) {
+                return res.status(500).json({
+                    status: 500,
+                    messageDEV: 'Error getting user',
+                    error: err
+                });
+            }
+            return res.status(200).json({
+                status: 200,
+                message: 'Xóa thành công sản phẩm'
+            });
+
+        })
+    } catch (error) {
+        return res.status(500).json({
+            status: 500,
+            messageDEV: 'Error getting user',
+            error: error
+        });
+    }
+})
 
 module.exports = productRouter;

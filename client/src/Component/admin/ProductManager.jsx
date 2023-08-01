@@ -39,6 +39,16 @@ export default function ProductManager() {
         }
     };
 
+    const handleDeleteProduct = async (productId) => {
+        await axios.delete(`http://localhost:8080/api/v1/products/${productId}`)
+            .then((res) => {
+                console.log(res);
+            })
+            .catch((err) => { console.log(err) });
+        confirm('Are you sure you want to delete this product?')
+        loadProduct();
+    }
+
     const loadProduct = () => {
         axios.get(`http://localhost:8080/api/v1/products?searchName=${searchName}&LIMIT=${limit}&OFFSET=${currentPage}`)
             .then(res => {
@@ -107,6 +117,7 @@ export default function ProductManager() {
                                     <th>Tỉ lệ giảm giá</th>
                                     <th>Loại hàng</th>
                                     <th>Phân loại hãng sản xuất</th>
+                                    <th>Trạng thái</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -121,9 +132,10 @@ export default function ProductManager() {
                                         <td>{item.percent_discount * 100}%</td>
                                         <td>{item.categoryName}</td>
                                         <td>{item.trademark}</td>
+                                        <td>{item._status}</td>
                                         <td>
-                                            <button className='btn btn--size-s'>Sửa</button>
-                                            <button className='btn btn--size-s'>Xóa</button>
+                                            <button className='btn-edit'>Sửa</button>
+                                            <button className='btn-delete' onClick={() => handleDeleteProduct(item.productId)}>Xóa</button>
                                         </td>
                                     </tr>
                                 })}

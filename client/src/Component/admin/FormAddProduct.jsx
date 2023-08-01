@@ -1,5 +1,6 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
+import { changeDate1 } from '../../formData/formData';
 
 export default function FormAddProduct({ loadProduct, setIsShow }) {
 
@@ -18,10 +19,43 @@ export default function FormAddProduct({ loadProduct, setIsShow }) {
     const [model, setModel] = useState('');
     const [product_code, setProduct_code] = useState('');
     const [price, setPrice] = useState('');
-    const [percent_discount, setPercentDiscount] = useState('');
+    const [percent_discount, setPercentDiscount] = useState(0);
     const [image, setImage] = useState('');
+    const createdDate = changeDate1(new Date());
+    const createdBy = 'Trần Công Tuyến';
+    const modifileDate = changeDate1(new Date());
+    const modifileBy = 'Trần Công Tuyến';
 
 
+
+    const handleSubmitProduct = async (e) => {
+        e.preventDefault();
+        const formData = new FormData();
+        formData.append('productName', productName)
+        formData.append('_description', _description)
+        formData.append('model', model)
+        formData.append('product_code', product_code)
+        formData.append('price', price)
+        formData.append('percent_discount', percent_discount)
+        formData.append('image', image)
+        formData.append('categoryId', categoryId)
+        formData.append('classifyId', classifyId)
+        formData.append('createdDate', createdDate)
+        formData.append('createdBy', createdBy)
+        formData.append('modifileDate', modifileDate)
+        formData.append('modifileBy', modifileBy)
+        formData.append('_status', _status);
+
+        await axios.post('http://localhost:8080/api/v1/products', formData, {
+            headers: {
+                "Content-Type": "multipart/form-data"
+            }
+        })
+            .then(res => console.log(res.data))
+            .catch(err => console.log(err))
+        loadProduct();
+        setIsShow(false);
+    }
 
 
     const loadArrCategory = () => {
@@ -44,7 +78,7 @@ export default function FormAddProduct({ loadProduct, setIsShow }) {
         loadArrCategory()
     }, [])
     return (
-        <form method='POST'>
+        <form method='POST' onSubmit={handleSubmitProduct}>
             <div class="modal_contaier">
                 <div class="modal__overlay"></div>
                 <div class="modal__body">
@@ -78,14 +112,23 @@ export default function FormAddProduct({ loadProduct, setIsShow }) {
                                             value={product_code} onChange={(e) => setProduct_code(e.target.value)} />
                                     </div>
                                 </div>
-                                <div className="auth-form__group auth-form__group-mt">
-                                    <label htmlFor="" className='btn-fontSize fw-500'>Giá</label>
-                                    <input type="number" className="auth-form__input margin-top-input" placeholder="Giá sản phẩm"
-                                        value={price} onChange={e => setPrice(e.target.value)} />
+                                <div className="auth-form__group auth-form__group-mt" style={{ display: 'flex' }}>
+                                    <div className="auth-form__group" style={{
+                                        marginRight: '10px'
+                                    }}>
+                                        <label htmlFor="" className='btn-fontSize fw-500'>Giá</label>
+                                        <input type="number" className="auth-form__input margin-top-input" placeholder="Giá sản phẩm"
+                                            value={price} onChange={e => setPrice(e.target.value)} />
+                                    </div>
+                                    <div className="auth-form__group">
+                                        <label htmlFor="" className='btn-fontSize fw-500'>Giảm giá</label>
+                                        <input type="number" className="auth-form__input margin-top-input" placeholder="Giá sản phẩm"
+                                            value={percent_discount} onChange={e => setPercentDiscount(e.target.value)} />
+                                    </div>
                                 </div>
                                 <div className="auth-form__group auth-form__group-mt">
                                     <label htmlFor="" className='btn-fontSize fw-500'>Ảnh mô tả sản phẩm</label>
-                                    <input type="file" className="auth-form__input margin-top-input auth-form__input-file-upload" multiple onChange={e => setImage(e.target.files[0])} />
+                                    <input type="file" className="auth-form__input margin-top-input auth-form__input-file-upload" onChange={e => setImage(e.target.files[0])} />
                                 </div>
                                 <div className="auth-form__group auth-form__group-mt auth-form__group-radio">
                                     {arrStatus.map((item, index) => {
@@ -115,7 +158,7 @@ export default function FormAddProduct({ loadProduct, setIsShow }) {
                             </div>
                             <div className="auth-form__controls auth-form__controls-mt">
                                 <button className="btn auth-form__controls-back btn-normal btn-fontSize" onClick={() => setIsShow(false)}>TRỞ LẠI</button>
-                                <button className="btn btn--primary btn-fontSize">THÊM</button>
+                                <button className="btn btn--primary btn-fontSize" type='submit'>THÊM</button>
                             </div>
                         </div>
                     </div>
