@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import FormCategory from './FormCategory';
+import { changeDate1 } from '../../formData/formData';
 
 export default function Category() {
     const listChooseRecord = [
@@ -26,23 +27,45 @@ export default function Category() {
         },
     ]
     const [arrCategory, setArrCategory] = useState([]);
+    const [arrClassiFy, setArrClassiFy] = useState([]);
     const [searchName, setSearchName] = useState('');
     const [limit, setLimit] = useState(listChooseRecord[0].value);
     const [currentPage, setCurrentPage] = useState(1);
     const [isShow, setIsShow] = useState(false);
     const [totalPage, setTotalPage] = useState();
-    const [totalReccord, setTotalRecord] = useState()
-    console.log(limit);
+    const [totalReccord, setTotalRecord] = useState();
+    const [categoryId, setCategoryId] = useState('');
+    const [trademark, setTrademark] = useState('');
+    const createdDate = changeDate1(new Date());
+    const createdBy = 'Trần Công Tuyến';
+    const modifileDate = changeDate1(new Date());
+    const modifileBy = 'Trần Công Tuyến';
     const handlechangePage = (page) => {
         if (page >= 1 && page <= totalPage) {
             setCurrentPage(page)
         }
     };
 
+    const createClassify = () => {
+        const newClassify = {
+            trademark: trademark,
+            categoryId: categoryId,
+            createdDate: createdDate,
+            createdBy: createdBy,
+            modifileDate: modifileDate,
+            modifileBy: modifileBy
+        }
+        axios.post('http://localhost:8080/api/v1/classifies/', newClassify)
+            .then(res => console.log(res))
+            .catch(err => console.log(err))
+        loadArrClassify();
+        setTrademark('');
+        setCategoryId('');
+    }
+
     const loadArrCategory = () => {
         axios.get(`http://localhost:8080/api/v1/categories?searchName=${searchName}&LIMIT=${limit}&OFFSET=${currentPage}`)
             .then(res => {
-                console.log(res);
                 if (res.data.status === 200) {
                     setArrCategory(res.data.data);
                     setTotalPage(res.data.totalPage);
@@ -52,9 +75,20 @@ export default function Category() {
             .catch(err => console.log(err));
     }
 
+    const loadArrClassify = () => {
+        axios.get('http://localhost:8080/api/v1/classifies/')
+            .then(res => {
+                if (res.data.status === 200) {
+                    setArrClassiFy(res.data.data)
+                }
+            })
+            .catch(err => console.log(err))
+    }
+
     useEffect(() => {
         loadArrCategory();
-    }, [searchName, limit, currentPage])
+        loadArrClassify();
+    }, [searchName, limit, currentPage, trademark])
 
     return (
         <>
@@ -69,7 +103,7 @@ export default function Category() {
                                         className="btn btn-add"
                                         onClick={() => setIsShow(true)}
                                     >
-                                        + Add new Category
+                                        Thêm loại hàng
                                     </button>
                                 </a>
                                 <div className="d-flex" role="search">
@@ -85,7 +119,7 @@ export default function Category() {
                                         className="btn btn-search"
                                         type="submit"
                                     >
-                                        Search
+                                        Tìm kiếm
                                     </button>
                                 </div>
                             </div>
@@ -101,7 +135,7 @@ export default function Category() {
                                 <tr>
                                     <th>STT</th>
                                     <th>Loại hàng</th>
-                                    <th>Ngày tạo</th>
+                                    <th>Phân loai</th>
                                     {/* <th colSpan={2}>Action</th> */}
                                 </tr>
                             </thead>
@@ -148,6 +182,7 @@ export default function Category() {
                     {/* /.card-body */}
                 </div>
             </div>
+
             {isShow ? <FormCategory loadArrCategory={loadArrCategory} isShow={isShow} setIsShow={setIsShow} /> : <></>}
         </>
     )

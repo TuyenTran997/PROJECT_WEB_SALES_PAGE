@@ -6,6 +6,7 @@ import FormAddProduct from './FormAddProduct'
 import FormAddUser from './FormAddUser'
 import { Link, Outlet, Route, Routes, useNavigate } from 'react-router-dom'
 import FormCategory from './FormCategory'
+import FormClassity from './FormClassity'
 
 export default function Admin() {
     const navigate = useNavigate()
@@ -105,9 +106,13 @@ export default function Admin() {
                         </div>
                     </nav>
                     <main className="content">
-                        <UserManager />
-                        <Category />
+                        {/* <UserManager />
+                        <Category /> */}
                         <ProductManager />
+
+                        {/* <FormClassity /> */}
+
+
                     </main>
                     <footer className="footer-admin">
                         <div className="container-fluid">

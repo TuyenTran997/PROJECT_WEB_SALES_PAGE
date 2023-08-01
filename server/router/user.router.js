@@ -40,8 +40,7 @@ userRoute.get('/', (req, res) => {
                         } else {
                             const totalRecord = resultCount[0][0].total;
                             const totalPage = Math.ceil(totalRecord / limit);
-                            const data = result[0]
-                            console.log(data);
+                            const data = result[0];
                             return res.status(200).json({
                                 status: 200,
                                 totalPage: totalPage,

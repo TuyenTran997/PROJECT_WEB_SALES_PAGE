@@ -15,7 +15,6 @@ categoryRouter.get('/', (req, res) => {
     const page = +req.query.OFFSET;
     // offset là vị trí bắt đầu lấy
     const offset = (page - 1) * limit;
-    console.log(limit, offset);
 
     try {
         if (searchName === '') {
@@ -39,7 +38,6 @@ categoryRouter.get('/', (req, res) => {
                             const totalRecord = resultCount[0][0].total;
                             const totalPage = Math.ceil(totalRecord / limit);
                             const data = result[0]
-                            console.log(data);
                             return res.status(200).json({
                                 status: 200,
                                 totalPage: totalPage,
@@ -101,5 +99,21 @@ categoryRouter.post('/', (req, res) => {
     }
 })
 
+categoryRouter.get('/category/all', (req, res) => {
+    try {
+        database.query('call Proc_category_getCategories()', (err, results) => {
+            return res.status(200).json({
+                status: 200,
+                data: results[0]
+            })
+        })
+    } catch (error) {
+        return res.status(500).json({
+            status: 500,
+            messageDEV: "Lỗi hệ thống",
+            error: error
+        })
+    }
+})
 
 module.exports = categoryRouter;
