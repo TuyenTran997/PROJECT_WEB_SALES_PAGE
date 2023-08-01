@@ -1,7 +1,6 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { changeDate1 } from '../../formData/formData';
-
 export default function FormAddProduct({ loadProduct, setIsShow }) {
 
     const arrStatus = [
@@ -26,6 +25,11 @@ export default function FormAddProduct({ loadProduct, setIsShow }) {
     const modifileDate = changeDate1(new Date());
     const modifileBy = 'Trần Công Tuyến';
 
+    const handleChangeFile = async (event) => {
+        let data = event.target.files;
+        setImage((data[0]))
+    }
+
 
 
     const handleSubmitProduct = async (e) => {
@@ -46,7 +50,7 @@ export default function FormAddProduct({ loadProduct, setIsShow }) {
         formData.append('modifileBy', modifileBy)
         formData.append('_status', _status);
 
-        await axios.post('http://localhost:8080/api/v1/products', formData, {
+        await axios.post('http://localhost:8000/api/v1/products', formData, {
             headers: {
                 "Content-Type": "multipart/form-data"
             }
@@ -59,13 +63,13 @@ export default function FormAddProduct({ loadProduct, setIsShow }) {
 
 
     const loadArrCategory = () => {
-        axios.get('http://localhost:8080/api/v1/classifies/classify/all')
+        axios.get('http://localhost:8000/api/v1/classifies/classify/all')
             .then(res => {
                 if (res.data.status === 200) {
                     setArrClassify(res.data.data)
                 }
             })
-        axios.get('http://localhost:8080/api/v1/categories/category/all')
+        axios.get('http://localhost:8000/api/v1/categories/category/all')
             .then(res => {
                 if (res.data.status === 200) {
                     setArrCategory(res.data.data);
@@ -79,9 +83,9 @@ export default function FormAddProduct({ loadProduct, setIsShow }) {
     }, [])
     return (
         <form method='POST' onSubmit={handleSubmitProduct}>
-            <div class="modal_contaier">
-                <div class="modal__overlay"></div>
-                <div class="modal__body">
+            <div className="modal_contaier">
+                <div className="modal__overlay"></div>
+                <div className="modal__body">
                     <div className="auth-form">
                         <div className="auth-form__container auth-form__container-mt">
                             <div className="auth-form__header .auth-form__header-mt">
@@ -128,11 +132,11 @@ export default function FormAddProduct({ loadProduct, setIsShow }) {
                                 </div>
                                 <div className="auth-form__group auth-form__group-mt">
                                     <label htmlFor="" className='btn-fontSize fw-500'>Ảnh mô tả sản phẩm</label>
-                                    <input type="file" className="auth-form__input margin-top-input auth-form__input-file-upload" onChange={e => setImage(e.target.files[0])} />
+                                    <input type="file" className="auth-form__input margin-top-input auth-form__input-file-upload" name='image' onChange={e => handleChangeFile(e)} />
                                 </div>
                                 <div className="auth-form__group auth-form__group-mt auth-form__group-radio">
                                     {arrStatus.map((item, index) => {
-                                        return <label className='btn-fontSize fw-500' style={{ display: 'flex', marginRight: '20px' }} >
+                                        return <label key={index} className='btn-fontSize fw-500' style={{ display: 'flex', marginRight: '20px' }} >
                                             {item.status}
                                             <input type="radio" name='status' style={{ marginLeft: '10px' }} value={item.statusId} onClick={(e) => setStatus(e.target.value)} />
                                         </label>
@@ -143,14 +147,14 @@ export default function FormAddProduct({ loadProduct, setIsShow }) {
                                     <select className='auth-form__input fw-500 select_1' value={categoryId} onChange={(e) => setCategoryId(e.target.value)}>
                                         <option>---Chọn nhóm loại hàng---</option>
                                         {arrCategory.map((item, index) => {
-                                            return <option value={item.categoryId}>{item.categoryName}</option>
+                                            return <option key={index} value={item.categoryId}>{item.categoryName}</option>
                                         })}
                                     </select>
                                     <select className='auth-form__input fw-500' value={classifyId} onChange={(e) => setClassifyId(e.target.value)}>
                                         <option>---Chọn loại hàng ---</option>
                                         {arrClassify.map((item, index) => {
                                             if (item.categoryId === categoryId) {
-                                                return <option value={item.classifyId}>{item.trademark}</option>
+                                                return <option key={index} value={item.classifyId}>{item.trademark}</option>
                                             }
                                         })}
                                     </select>

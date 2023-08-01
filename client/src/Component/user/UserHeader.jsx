@@ -24,7 +24,7 @@ export default function UserHeader() {
                     alt=""
                 />
                 <span className="header__navbar-user-name"></span>
-                <i class="fas fa-angle-down"></i>
+                <i className="fas fa-angle-down"></i>
                 <ul className="header__navbar-user-menu">
                     <li className="header__navbar-user-item">
                         <a href="">Tài khoản của tôi</a>

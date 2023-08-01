@@ -46,25 +46,8 @@ export default function Category() {
         }
     };
 
-    const createClassify = () => {
-        const newClassify = {
-            trademark: trademark,
-            categoryId: categoryId,
-            createdDate: createdDate,
-            createdBy: createdBy,
-            modifileDate: modifileDate,
-            modifileBy: modifileBy
-        }
-        axios.post('http://localhost:8080/api/v1/classifies/', newClassify)
-            .then(res => console.log(res))
-            .catch(err => console.log(err))
-        loadArrClassify();
-        setTrademark('');
-        setCategoryId('');
-    }
-
     const loadArrCategory = () => {
-        axios.get(`http://localhost:8080/api/v1/categories?searchName=${searchName}&LIMIT=${limit}&OFFSET=${currentPage}`)
+        axios.get(`http://localhost:8000/api/v1/categories?searchName=${searchName}&LIMIT=${limit}&OFFSET=${currentPage}`)
             .then(res => {
                 if (res.data.status === 200) {
                     setArrCategory(res.data.data);
@@ -75,19 +58,9 @@ export default function Category() {
             .catch(err => console.log(err));
     }
 
-    const loadArrClassify = () => {
-        axios.get('http://localhost:8080/api/v1/classifies/')
-            .then(res => {
-                if (res.data.status === 200) {
-                    setArrClassiFy(res.data.data)
-                }
-            })
-            .catch(err => console.log(err))
-    }
 
     useEffect(() => {
         loadArrCategory();
-        loadArrClassify();
     }, [searchName, limit, currentPage, trademark])
 
     return (

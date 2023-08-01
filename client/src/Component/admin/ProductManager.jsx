@@ -39,20 +39,10 @@ export default function ProductManager() {
         }
     };
 
-    const handleDeleteProduct = async (productId) => {
-        await axios.delete(`http://localhost:8080/api/v1/products/${productId}`)
-            .then((res) => {
-                console.log(res);
-            })
-            .catch((err) => { console.log(err) });
-        confirm('Are you sure you want to delete this product?')
-        loadProduct();
-    }
 
-    const loadProduct = () => {
-        axios.get(`http://localhost:8080/api/v1/products?searchName=${searchName}&LIMIT=${limit}&OFFSET=${currentPage}`)
+    const loadProduct = async () => {
+        axios.get(`http://localhost:8000/api/v1/products?searchName=${searchName}&LIMIT=${limit}&OFFSET=${currentPage}`)
             .then(res => {
-                console.log(res);
                 if (res.data.status === 200) {
                     setArrProduct(res.data.data);
                     setTotalPage(res.data.totalPage);
@@ -61,11 +51,19 @@ export default function ProductManager() {
             })
             .catch(err => console.log(err));
     }
-
     useEffect(() => {
         loadProduct();
     }, [searchName, limit, currentPage])
 
+    const handleDeleteProduct = async (productId) => {
+        await axios.delete(`http://localhost:8000/api/v1/products/${productId}`)
+            .then((res) => {
+                console.log(res);
+            })
+            .catch((err) => { console.log(err) });
+        confirm('Are you sure you want to delete this product?')
+        loadProduct();
+    }
     return (
         <>
             <div className="container-fluid p-0 _container">
@@ -79,7 +77,7 @@ export default function ProductManager() {
                                         className="btn btn-add"
                                         onClick={() => setIsShow(true)}
                                     >
-                                        + Add new Product
+                                        Thêm sản phẩm
                                     </button>
                                 </a>
                                 <div className="d-flex" role="search">
@@ -117,6 +115,7 @@ export default function ProductManager() {
                                     <th>Tỉ lệ giảm giá</th>
                                     <th>Loại hàng</th>
                                     <th>Phân loại hãng sản xuất</th>
+                                    <th>Hình ảnh hàng</th>
                                     <th>Trạng thái</th>
                                     <th>Action</th>
                                 </tr>
@@ -132,7 +131,10 @@ export default function ProductManager() {
                                         <td>{item.percent_discount * 100}%</td>
                                         <td>{item.categoryName}</td>
                                         <td>{item.trademark}</td>
-                                        <td>{item._status}</td>
+                                        <td>
+                                            <img src={'http://localhost:8000/api/v1/products/uploads/images/' + item.image} alt="" style={{ width: '80px', height: '60px' }} />
+                                        </td>
+                                        <td>{item._status === 0 ? "Còn hàng" : "Hết hàng"}</td>
                                         <td>
                                             <button className='btn-edit'>Sửa</button>
                                             <button className='btn-delete' onClick={() => handleDeleteProduct(item.productId)}>Xóa</button>

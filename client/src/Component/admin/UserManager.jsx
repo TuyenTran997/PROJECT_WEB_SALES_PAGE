@@ -39,7 +39,7 @@ export default function UserManager() {
         }
     };
     const loadUser = () => {
-        axios.get(`http://localhost:8080/api/v1/users?searchName=${searchName}&LIMIT=${limit}&OFFSET=${currentPage}`)
+        axios.get(`http://localhost:8000/api/v1/users?searchName=${searchName}&LIMIT=${limit}&OFFSET=${currentPage}`)
             .then(res => {
                 if (res.data.status === 200) {
                     setArrUser(res.data.data);

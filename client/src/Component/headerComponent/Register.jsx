@@ -21,7 +21,7 @@ export default function Register() {
     const handleRegister = (e) => {
         e.preventDefault();
         if (conformPassword === password) {
-            axios.post('http://localhost:8080/api/v1/users', newUser)
+            axios.post('http://localhost:8000/api/v1/users', newUser)
                 .then(res => console.log(res))
                 .catch(err => console.log(err))
             navigate('/login');

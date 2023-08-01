@@ -57,7 +57,7 @@ export default function FormClassity() {
             modifileDate: modifileDate,
             modifileBy: modifileBy
         }
-        axios.post('http://localhost:8080/api/v1/classifies/', newClassify)
+        axios.post('http://localhost:8000/api/v1/classifies/', newClassify)
             .then(res => console.log(res))
             .catch(err => console.log(err))
         loadArrClassify();
@@ -66,7 +66,7 @@ export default function FormClassity() {
     }
 
     const loadArrCategory = () => {
-        axios.get('http://localhost:8080/api/v1/categories/category/all')
+        axios.get('http://localhost:8000/api/v1/categories/category/all')
             .then(res => {
                 if (res.data.status === 200) {
                     setArrCategory(res.data.data);
@@ -76,7 +76,7 @@ export default function FormClassity() {
     }
 
     const loadArrClassify = () => {
-        axios.get(`http://localhost:8080/api/v1/classifies?searchName=${searchName}&LIMIT=${limit}&OFFSET=${currentPage}`)
+        axios.get(`http://localhost:8000/api/v1/classifies?searchName=${searchName}&LIMIT=${limit}&OFFSET=${currentPage}`)
             .then(res => {
                 if (res.data.status === 200) {
                     setArrClassiFy(res.data.data);

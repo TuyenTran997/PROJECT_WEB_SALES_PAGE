@@ -45,7 +45,7 @@ classifyRouter.get('/', (req, res) => {
     const page = +req.query.OFFSET;
     // offset là vị trí bắt đầu lấy
     const offset = (page - 1) * limit;
-    console.log(limit, offset);
+
     try {
         if (searchName === '') {
             database.query('call Proc_classify_getAllClassify(?, ?)', [limit, offset], (err, result) => {

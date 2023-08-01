@@ -67,7 +67,7 @@ export default function Admin() {
                                         <a href="">
                                             <img src='./public/assets/img/logo.png' alt='' />
                                             <span className="text-dark"></span>
-                                            <i class="fas fa-angle-down"></i>
+                                            <i className="fas fa-angle-down"></i>
                                         </a>
                                     </div>
                                     <ul className="nav__drop">
@@ -106,11 +106,11 @@ export default function Admin() {
                         </div>
                     </nav>
                     <main className="content">
-                        {/* <UserManager />
-                        <Category /> */}
+                        <UserManager />
+                        <Category />
                         <ProductManager />
 
-                        {/* <FormClassity /> */}
+                        <FormClassity />
 
 
                     </main>

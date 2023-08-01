@@ -19,7 +19,7 @@ export default function FormCategory({ isShow, setIsShow, loadArrCategory }) {
             modifileDate: modifileDate,
             modifileBy: modifileBy
         }
-        await axios.post('http://localhost:8080/api/v1/categories', newCategory)
+        await axios.post('http://localhost:8000/api/v1/categories', newCategory)
             .then(res => console.log(res))
             .catch(err => console.log(err));
 
@@ -29,9 +29,9 @@ export default function FormCategory({ isShow, setIsShow, loadArrCategory }) {
     };
 
     return (
-        <div class="modal_contaier">
-            <div class="modal__overlay"></div>
-            <div class="modal__body">
+        <div className="modal_contaier">
+            <div className="modal__overlay"></div>
+            <div className="modal__body">
                 <div className="auth-form">
                     <div className="auth-form__container auth-form__container-mt">
                         <div className="auth-form__header .auth-form__header-mt">

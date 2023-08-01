@@ -13,7 +13,7 @@ export default function Login() {
 
     const hadndleLogin = async (e) => {
         e.preventDefault();
-        await axios.post('http://localhost:8080/api/v1/users/login', user)
+        await axios.post('http://localhost:8000/api/v1/users/login', user)
             .then(res => {
                 if (res.status === 200) {
                     if (res.data.data.roleId === 0) {
