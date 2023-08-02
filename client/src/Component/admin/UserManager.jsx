@@ -114,10 +114,12 @@ export default function UserManager() {
                                     <td>{item.address}</td>
                                     <td>{item.roleId == 0 ? 'ADMIN' : "USER"}</td>
                                     <td>
-                                        <button type="button" className="btn btn-success btn-fontSize btn-width">
+                                        <button type="button" className="btn-edit">
                                             Unlock
                                         </button>
-                                        <button type="button" className="btn btn-danger btn-fontSize btn-width">
+                                    </td>
+                                    <td>
+                                        <button type="button" className="btn-delete">
                                             Lock
                                         </button>
                                     </td>

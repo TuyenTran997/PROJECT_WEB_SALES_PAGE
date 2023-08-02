@@ -57,7 +57,7 @@
 
 .btn-edit,
 .btn-delete {
-    width: 5rem;
+    width: 6rem;
     height: 3rem;
     border: 1px solid rgba(0, 0, 0, 0.125);
     border-radius: 0.25rem;
@@ -65,7 +65,7 @@
 
 .btn-edit {
     background-color: #499deb;
-    margin-right: 10px;
+    /* margin-right: 10px; */
 }
 
 .btn-edit:hover {
@@ -82,4 +82,19 @@
     color: #e7e7e7;
     border: none;
     background-color: #fa4a4a;
+}
+
+.btn-buy {
+    border: 1px solid var(--white-color);
+    height: 2.8rem;
+    font-size: 1.4rem;
+    border-radius: 3px;
+    color: var(--white-color);
+    background: var(--primary-color);
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.btn-buy:hover {
+    background: rgb(9, 38, 167, 0.8);
 }

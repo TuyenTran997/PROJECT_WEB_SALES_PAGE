@@ -117,7 +117,7 @@ export default function ProductManager() {
                                     <th>Phân loại hãng sản xuất</th>
                                     <th>Hình ảnh hàng</th>
                                     <th>Trạng thái</th>
-                                    <th>Action</th>
+                                    <th colSpan={2}>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -137,6 +137,8 @@ export default function ProductManager() {
                                         <td>{item._status === 0 ? "Còn hàng" : "Hết hàng"}</td>
                                         <td>
                                             <button className='btn-edit'>Sửa</button>
+                                        </td>
+                                        <td>
                                             <button className='btn-delete' onClick={() => handleDeleteProduct(item.productId)}>Xóa</button>
                                         </td>
                                     </tr>

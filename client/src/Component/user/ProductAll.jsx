@@ -1,169 +1,118 @@
-import React from 'react'
+import axios from 'axios';
+import React, { useEffect, useState } from 'react'
+import { calculate, changeNumber } from '../../formData/formData';
+import FormProductAll from './FormProductAll';
+import Product from './Product';
 
-export default function ProductAll() {
+export default function ProductAll({ buyProduct, quantity, setQuantity }) {
+
+    const [arrProduct, setArrProduct] = useState([])
+    const listChooseRecord = [
+        {
+            id: 1,
+            value: 10,
+        },
+        {
+            id: 2,
+            value: 20,
+        },
+        {
+            id: 3,
+            value: 30,
+        },
+        {
+            id: 4,
+            value: 50,
+        },
+        {
+            id: 5,
+            value: 100,
+        },
+    ];
+
+    const [arrCategory, setArrCategory] = useState([]);
+    const [arrClassiFy, setArrClassiFy] = useState([]);
+    const [searchName, setSearchName] = useState('');
+    const [limit, setLimit] = useState(listChooseRecord[0].value);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [isShow, setIsShow] = useState(false);
+    const [totalPage, setTotalPage] = useState();
+    const [totalReccord, setTotalRecord] = useState();
+    const [productId, setProductId] = useState(null);
+    const [productBuy, setProductBuy] = useState({});
+
+
+    const handlechangePage = (page) => {
+        if (page >= 1 && page <= totalPage) {
+            setCurrentPage(page)
+        }
+    };
+
+
+    const handleChangeProductId = (productId) => {
+        setProductId(productId);
+    };
+
+    const loadProduct = async () => {
+        axios.get(`http://localhost:8000/api/v1/products?searchName=${searchName}&LIMIT=${limit}&OFFSET=${currentPage}`)
+            .then(res => {
+                if (res.data.status === 200) {
+                    setArrProduct(res.data.data);
+                    setTotalPage(res.data.totalPage);
+                    setTotalRecord(res.data.totalRecord)
+                }
+            })
+            .catch(err => console.log(err));
+    }
+
+    const loadArrCategory = () => {
+        axios.get('http://localhost:8000/api/v1/categories/category/all')
+            .then(res => {
+                if (res.data.status === 200) {
+                    setArrCategory(res.data.data);
+                }
+            })
+            .catch(err => console.log(err));
+    }
+
+    const loadArrClassify = () => {
+        axios.get('http://localhost:8000/api/v1/classifies/classify/all')
+            .then(res => {
+                if (res.data.status === 200) {
+                    setArrClassiFy(res.data.data);
+                }
+            })
+            .catch(err => console.log(err));
+    }
+
+    useEffect(() => {
+        loadArrCategory();
+        loadArrClassify();
+    }, [])
+
+    useEffect(() => {
+        loadProduct();
+    }, [searchName, limit, currentPage])
+
     return (
         <div className="grid__row app__content">
             <div className="grid__collum-2">
                 <nav className="category">
                     <h3 className="category__heading">Danh mục</h3>
                     <ul className="category-list">
-                        <li className="category-item category-item--active">
-                            <a href="##" className="category-item__link">
-                                Trang điểm mặt
-                            </a>
-                        </li>
-                        <li className="category-item">
-                            <a href="##" className="category-item__link">
-                                Trang điểm mắt
-                            </a>
-                        </li>
-                        <li className="category-item">
-                            <a href="##" className="category-item__link">
-                                Trang điểm môi
-                            </a>
-                        </li>
+                        {arrCategory.map((item, index) => {
+                            return <li className="category-item category-item--active" key={index}>
+                                <a href="##" className="category-item__link">
+                                    {item.categoryName}
+                                </a>
+                            </li>
+                        })}
                     </ul>
                 </nav>
             </div>
             <div className="grid__collum-10">
-                <div className="home-filter">
-                    <span className="home-filter__label">Sắp xếp theo</span>
-                    <button className="btn home-filter__btn">Phổ biến</button>
-                    <button className="btn btn--primary home-filter__btn">
-                        Mới nhất
-                    </button>
-                    <button className="btn home-filter__btn">Bán chạy</button>
-                    <div className="select-input">
-                        <span className="select-input__label">Giá</span>
-                        <i className="select-input__icon fa-solid fa-chevron-down" />
-                        <ul className="select-input__list">
-                            <li className="select-input__item">
-                                <a href="#" className="select-input__link">
-                                    Giá thấp đến cao
-                                </a>
-                            </li>
-                            <li className="select-input__item">
-                                <a href="#" className="select-input__link">
-                                    {" "}
-                                    Giá cao đến thấp
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div className="home-filter__page">
-                        <span className="home-filter__page-num">
-                            <span className="home-filter__page-curent">1</span>/14
-                        </span>
-                        <div className="home-filter__page-control">
-                            <a
-                                href="#"
-                                className="home-filter__page--btn home-filter__page--btn-disable"
-                            >
-                                <i className="home-filter__page-icon fa-solid fa-chevron-left" />
-                            </a>
-                            <a href="#" className="home-filter__page--btn">
-                                <i className="home-filter__page-icon fa-solid fa-chevron-right" />
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <div className="home-product">
-                    <div className="grid__row">
-                        <div className="grid__collum-2-4">
-                            <a className="home-product-item" href="##">
-                                <div
-                                    className="home-product-item__img"
-                                    style={{
-                                        backgroundImage:
-                                            "url(./public/assets/img/GS.008781_FEATURE_94404.jpg)"
-                                    }}
-                                ></div>
-                                <h4 className="home-product-item__name">
-                                    Laptop Lenovo IdeaPad 1 11IGL05 81VT006FVN (Pentium N5030/4GB RAM/256GB/11.6"HD/Win 11/Grey)
-                                </h4>
-                                <div className="home-product-item__price">
-                                    <span className="home-product-item__price-old">
-                                        10,990,000đ
-                                    </span>
-                                    <span className="home-product-item__price-curent">
-                                        4,490,000đ
-                                    </span>
-                                </div>
-                                <div className="home-product-item__action">
-                                    <span className="home-product-item__like home-product-item__like-liked">
-                                        <i className="home-product-item__icon-fill fa-solid fa-heart" />
-                                        <i className="home-product-item__icon-empty fa-regular fa-heart" />
-                                    </span>
-                                    <div className="home-product-item__rating">
-                                        <i className="home-product-item__start-gold fa-sharp fa-solid fa-star" />
-                                        <i className="home-product-item__start-gold fa-sharp fa-solid fa-star" />
-                                        <i className="home-product-item__start-gold fa-sharp fa-solid fa-star" />
-                                        <i className="home-product-item__start-gold fa-sharp fa-solid fa-star" />
-                                        <i className="fa-sharp fa-solid fa-star" />
-                                    </div>
-                                    <span className="home-product-item__sold">Đã bán</span>
-                                </div>
-                                <div className="home-product-item__origin">
-                                    <span className="home-product-item__brand">Whoo</span>
-                                    <span className="home-product-item__origin-name">
-                                        Hàn Quóc
-                                    </span>
-                                </div>
-                                <div className="home-product-item__favourite">
-                                    <i className="fa-solid fa-check" />
-                                    <span>Yêu thích</span>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <ul className="pagination home-product__pagination">
-                    <li className="pagination-item">
-                        <a href="#" className="pagination-item__link">
-                            <i className="pagination-item__icon fa-solid fa-chevron-left" />
-                        </a>
-                    </li>
-                    <li className="pagination-item pagination-item--active">
-                        <a href="#" className="pagination-item__link">
-                            1
-                        </a>
-                    </li>
-                    <li className="pagination-item">
-                        <a href="#" className="pagination-item__link">
-                            2
-                        </a>
-                    </li>
-                    <li className="pagination-item">
-                        <a href="#" className="pagination-item__link">
-                            3
-                        </a>
-                    </li>
-                    <li className="pagination-item">
-                        <a href="#" className="pagination-item__link">
-                            4
-                        </a>
-                    </li>
-                    <li className="pagination-item">
-                        <a href="#" className="pagination-item__link">
-                            5
-                        </a>
-                    </li>
-                    <li className="pagination-item">
-                        <a href="#" className="pagination-item__link">
-                            ...
-                        </a>
-                    </li>
-                    <li className="pagination-item">
-                        <a href="#" className="pagination-item__link">
-                            14
-                        </a>
-                    </li>
-                    <li className="pagination-item">
-                        <a href="#" className="pagination-item__link">
-                            <i className="pagination-item__icon fa-solid fa-chevron-right" />
-                        </a>
-                    </li>
-                </ul>
+                <FormProductAll arrProduct={arrProduct} handleChangeProductId={handleChangeProductId} buyProduct={buyProduct} />
+                {productId === null ? <></> : <Product productId={productId} buyProduct={buyProduct} quantity={quantity} setQuantity={setQuantity} />}
             </div>
         </div>
     )

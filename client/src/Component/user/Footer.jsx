@@ -4,49 +4,49 @@ export default function Footer() {
     return (
         <footer className="footer">
             <div className="grid">
-                <div className="grid__row">
+                <div className="grid__row grip__row-2-4">
                     <div className="grid__collum-2-4">
-                        <h3 className="footer__heading">Cham soc khach hang</h3>
+                        <h3 className="footer__heading">CHĂM SÓC KHÁCH HÀNG</h3>
                         <ul className="footer__list">
                             <li className="footer__item">
                                 <a href="" className="footer__item-link">
-                                    Trung tam tro giup
+                                    Trung tâm trợ giúp
                                 </a>
                             </li>
                             <li className="footer__item">
                                 <a href="" className="footer__item-link">
-                                    F8-Shop Mall
+                                    T_SALES_PAGE_T
                                 </a>
                             </li>
                             <li className="footer__item">
                                 <a href="" className="footer__item-link">
-                                    Huong dan mua hang
+                                    Hướng dẫn mua hàng
                                 </a>
                             </li>
                         </ul>
                     </div>
                     <div className="grid__collum-2-4">
-                        <h3 className="footer__heading">Gioi thieu</h3>
+                        <h3 className="footer__heading">Giới thiệu</h3>
                         <ul className="footer__list">
                             <li className="footer__item">
                                 <a href="" className="footer__item-link">
-                                    Gioi thieu
+                                    Giới thiệu
                                 </a>
                             </li>
                             <li className="footer__item">
                                 <a href="" className="footer__item-link">
-                                    Tuyen dung
+                                    Tuyển dụng
                                 </a>
                             </li>
                             <li className="footer__item">
                                 <a href="" className="footer__item-link">
-                                    Dieu khoan
+                                    Điều khoản
                                 </a>
                             </li>
                         </ul>
                     </div>
-                    <div className="grid__collum-2-4">
-                        <h3 className="footer__heading">Danh muc</h3>
+                    {/* <div className="grid__collum-2-4">
+                        <h3 className="footer__heading">DANH MỤC</h3>
                         <ul className="footer__list">
                             <li className="footer__item">
                                 <a href="" className="footer__item-link">
@@ -64,7 +64,7 @@ export default function Footer() {
                                 </a>
                             </li>
                         </ul>
-                    </div>
+                    </div> */}
                     <div className="grid__collum-2-4">
                         <h3 className="footer__heading">Theo doi</h3>
                         <ul className="footer__list">
@@ -76,13 +76,13 @@ export default function Footer() {
                             </li>
                             <li className="footer__item">
                                 <a href="" className="footer__item-link">
-                                    <i className="fa-brands fa-instagram" />
+                                    <i className="footer__item-icon fa-brands fa-instagram" />
                                     Instagram
                                 </a>
                             </li>
                             <li className="footer__item">
                                 <a href="" className="footer__item-link">
-                                    <i className="fa-brands fa-linkedin" />
+                                    <i className="footer__item-icon fa-brands fa-linkedin" />
                                     LinkedIn
                                 </a>
                             </li>

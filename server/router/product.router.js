@@ -95,6 +95,49 @@ productRouter.get('/', (req, res) => {
         });
     }
 })
+
+productRouter.get('/:id', (req, res) => {
+    const productId = req.params.id;
+    try {
+        database.query('call Proc_product_getProdutById(?)', productId, (err, result) => {
+            if (err) return res.status(500).json({
+                status: 500,
+                messageDev: "Lỗi hệ thống",
+                error: err
+            })
+            return res.status(200).json({
+                status: 200,
+                message: 'Lấy dữ liệu thành công',
+                data: result[0]
+            })
+        })
+    } catch (error) {
+        return res.status(500).json({
+            status: 500,
+            messageDev: "Lỗi hệ thống",
+            error: error
+        });
+    }
+})
+
+productRouter.get('/product/all', (req, res) => {
+    try {
+        database.query('call Proc_product_getPro', (req, result) => {
+            return res.status(200).json({
+                status: 200,
+                message: 'Lấy dữ liệu thành công',
+                data: result[0]
+            })
+        })
+    } catch (error) {
+        return res.status(500).json({
+            status: 500,
+            messageDev: "Lỗi hệ thống",
+            error: error
+        });
+    }
+})
+
 productRouter.post('/', upload.single('image'), (req, res) => {
     const productId = uuidv4();
     const productPost = req.body;

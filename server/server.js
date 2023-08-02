@@ -6,6 +6,7 @@ const userRouter = require('./router/user.router')
 const categoryRouter = require('./router/category.router')
 const productRouter = require('./router/product.router')
 const classifyRouter = require('./router/classify.router')
+const cartRouter = require('./router/carts.router')
 // Add headers before the routes are defined
 app.use(function (req, res, next) {
 
@@ -30,6 +31,7 @@ app.use('/api/v1/users', userRouter);
 app.use('/api/v1/categories', categoryRouter);
 app.use('/api/v1/products', productRouter);
 app.use('/api/v1/classifies', classifyRouter);
+app.use('/api/v1/carts', cartRouter);
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => {

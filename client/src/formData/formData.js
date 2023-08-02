@@ -25,5 +25,15 @@ export const changeDate1 = (date) => {
     return `${year}-${month}-${day}`;
 };
 
+export const changeNumber = function (number) {
+    let numberNew = new Intl.NumberFormat('de-DE').format(number)
+    return numberNew
+}
+
+export const calculate = function (a, b) {
+    let c = a - (a * b);
+    return c
+}
+
 
 

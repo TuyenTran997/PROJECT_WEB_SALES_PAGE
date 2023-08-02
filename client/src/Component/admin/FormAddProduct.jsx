@@ -141,7 +141,6 @@ export default function FormAddProduct({ loadProduct, setIsShow }) {
                                             <input type="radio" name='status' style={{ marginLeft: '10px' }} value={item.statusId} onClick={(e) => setStatus(e.target.value)} />
                                         </label>
                                     })}
-
                                 </div>
                                 <div className="auth-form__group auth-form__select btn-fontSize">
                                     <select className='auth-form__input fw-500 select_1' value={categoryId} onChange={(e) => setCategoryId(e.target.value)}>
