@@ -3,7 +3,8 @@ const bodyParser = require('body-parser');
 const { v4: uuidv4 } = require('uuid');
 const bcrypt = require('bcryptjs');
 const salt = bcrypt.genSaltSync(10);
-
+const multer = require('multer');
+const path = require('path');
 const userRoute = express.Router();
 const cors = require('cors');
 const database = require('../connection/connectMYSQL');
@@ -12,13 +13,28 @@ userRoute.use(bodyParser.json());
 userRoute.use(bodyParser.urlencoded({ extended: true }));
 userRoute.use(cors({ credentials: true, origin: true }));
 
+
+const storage = multer.diskStorage({
+    destination: function (req, file, callback) {
+        callback(null, 'router/uploads/images')
+    },
+    filename: function (req, file, callback) {
+        callback(null, file.originalname); // Lay ten duong dan file goc D:\CODE\Front-End Youtube\Web Ban Hang-SHOPPE\server\uploads\201501051404337920_Zen-A450-main-80.jpg
+    }
+})
+
+const upload = multer({
+    storage: storage
+});
+userRoute.use(express.static('router'))
+
+
 userRoute.get('/', (req, res) => {
     const searchName = req.query.searchName;
     const limit = +req.query.LIMIT;
     const page = +req.query.OFFSET;
     // offset là vị trí bắt đầu lấy
     const offset = (page - 1) * limit;
-    console.log(limit, offset);
     try {
         if (searchName === '') {
             database.query('call Proc_user_getAllUser(?, ?)', [limit, offset], (err, result) => {
@@ -92,6 +108,7 @@ userRoute.get('/:id', (req, res) => {
     }
 })
 
+// đăng ký tài khoản user
 userRoute.post('/', checkDataEmpty, validateEmail, (req, res) => {
     const id = uuidv4();
     const user = req.body;
@@ -120,6 +137,7 @@ userRoute.post('/', checkDataEmpty, validateEmail, (req, res) => {
     }
 })
 
+// kiểm tra thông tin đăng nhập của user
 userRoute.post('/login', checkDataEmptyLogin, validateEmail, (req, res) => {
     const { email, _password } = req.body;
 
@@ -156,12 +174,41 @@ userRoute.post('/login', checkDataEmptyLogin, validateEmail, (req, res) => {
             }
         })
     } catch (error) {
-        return res.status(201).json({
-            status: 201,
-            message: 'User post successfully'
-        })
+        return res.status(500).json({
+            status: 500,
+            messageDEV: 'Error getting user',
+            error: error
+        });
     }
 })
 
+// cập nhật thông tin user
+userRoute.put('/', upload.single('image'), (req, res) => {
+    const image = req.file.filename;
+    const info = req.body;
+    const infoUpdate = [info.dateOfbirth, info.gender, info.phoneNumber, info.address, info.createdDate, info.createdBy, info.modifileDate, info.modifileBy, image, info.userId]
+    try {
+        database.query('call Proc_user_updateInfoUser(?,?,?,?,?,?,?,?,?,?)', infoUpdate, (err, result) => {
+            if (err) {
+                return res.status(500).json({
+                    status: 500,
+                    messageDEV: 'Error getting user',
+                    error: err
+                });
+            } else {
+                return res.status(200).json({
+                    status: 200,
+                    message: 'Cập nhật thông tin thành công'
+                })
+            }
+        })
+    } catch (error) {
+        return res.status(500).json({
+            status: 500,
+            messageDEV: 'Error getting user',
+            error: error
+        });
+    }
+})
 
 module.exports = userRoute;

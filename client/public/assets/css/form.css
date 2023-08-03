@@ -98,3 +98,35 @@
 .btn-buy:hover {
     background: rgb(9, 38, 167, 0.8);
 }
+
+
+.home-product-container {
+    margin-top: 20px;
+}
+
+.home-product_content {
+    margin-bottom: 20px;
+}
+
+.home-product_content-title {
+    color: #000;
+    font-size: 1.6rem;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #ccc;
+    display: flex;
+    justify-content: space-between;
+}
+
+.home-product_content-title-icon {
+    font-size: 1.2rem;
+    margin-left: 10px;
+    margin-right: 15px;
+}
+
+.home-product_content-title-show {
+    margin-right: 10px;
+}
+
+.home-product_content-title-indexing span {
+    margin-right: 10px;
+}

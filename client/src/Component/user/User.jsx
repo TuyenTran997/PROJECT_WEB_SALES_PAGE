@@ -5,6 +5,9 @@ import Cart from './Cart';
 import Product from './Product';
 import ProductAll from './ProductAll';
 import axios from 'axios';
+import ShowProduct from './ShowProduct';
+import FormUpdateInfo from './FormUpdateInfo';
+import ModalLayout from '../headerComponent/ModalLayout';
 
 
 export default function User() {
@@ -98,12 +101,15 @@ export default function User() {
                 <Header />
                 <div className="app__container">
                     <div className="grid">
-                        <ProductAll buyProduct={buyProduct} loadArrCart={loadArrCart} />
-                        <Cart totalRecord={totalRecord} totalProduct={totalProduct} arrCart={arrCart} total={total} handleDeleteProduct={handleDeleteProduct} loadArrCart={loadArrCart} buyProduct={buyProduct} />
+                        <ShowProduct />
+                        {/* <ProductAll buyProduct={buyProduct} loadArrCart={loadArrCart} /> */}
+                        {/* <Cart totalRecord={totalRecord} totalProduct={totalProduct} arrCart={arrCart} total={total} handleDeleteProduct={handleDeleteProduct} loadArrCart={loadArrCart} buyProduct={buyProduct} /> */}
                     </div>
                 </div>
                 <Footer />
+                {/* <FormUpdateInfo /> */}
             </div>
+            {/* <FormUpdateInfo /> */}
         </>
     )
 }

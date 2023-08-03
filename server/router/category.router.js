@@ -72,9 +72,7 @@ categoryRouter.get('/', (req, res) => {
 categoryRouter.post('/', (req, res) => {
     const categoryId = uuidv4();
     const category = req.body;
-    console.log(category);
     const categoryPost = [categoryId, category.categoryName, category.createdDate, category.createdBy, category.modifileDate, category.modifileBy];
-    console.log(categoryPost);
     try {
         database.query('call Proc_category_createCategory(?,?,?,?,?,?)', categoryPost, (err, result) => {
             if (err) {

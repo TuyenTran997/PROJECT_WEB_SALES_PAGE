@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import Login from './Login'
 import Register from './Register'
+import FormUpdateInfo from '../user/FormUpdateInfo'
 
 export default function ({ isToggleModal, setIsToggleModal, isAccount, setIsAccount }) {
 
@@ -8,11 +9,7 @@ export default function ({ isToggleModal, setIsToggleModal, isAccount, setIsAcco
         <div class="modal_contaier">
             <div class="modal__overlay"></div>
             <div class="modal__body">
-                {isAccount ?
-                    <Register isAccount={isAccount} setIsAccount={setIsAccount} />
-                    :
-                    <Login isToggleModal={isToggleModal} setIsToggleModal={setIsToggleModal} isAccount={isAccount} setIsAccount={setIsAccount} />
-                }
+                <FormUpdateInfo />
             </div>
         </div>
     )

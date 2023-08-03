@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import FormAddProduct from './FormAddProduct';
+import FormUpdateProduct from './FormUpdateProduct';
 
 export default function ProductManager() {
     const [arrProduct, setArrProduct] = useState([])
@@ -30,6 +31,7 @@ export default function ProductManager() {
     const [limit, setLimit] = useState(listChooseRecord[0].value);
     const [currentPage, setCurrentPage] = useState(1);
     const [isShow, setIsShow] = useState(false);
+    const [isShowFormEdit, setIsShowFormEdit] = useState(false);
     const [totalPage, setTotalPage] = useState();
     const [totalReccord, setTotalRecord] = useState()
 
@@ -39,6 +41,8 @@ export default function ProductManager() {
         }
     };
 
+
+    const [productEdit, setProductEdit] = useState({})
 
     const loadProduct = async () => {
         axios.get(`http://localhost:8000/api/v1/products?searchName=${searchName}&LIMIT=${limit}&OFFSET=${currentPage}`)
@@ -136,7 +140,7 @@ export default function ProductManager() {
                                         </td>
                                         <td>{item._status === 0 ? "Còn hàng" : "Hết hàng"}</td>
                                         <td>
-                                            <button className='btn-edit'>Sửa</button>
+                                            <button className='btn-edit' onClick={() => { setProductEdit(item), setIsShowFormEdit(true) }}>Sửa</button>
                                         </td>
                                         <td>
                                             <button className='btn-delete' onClick={() => handleDeleteProduct(item.productId)}>Xóa</button>
@@ -178,6 +182,7 @@ export default function ProductManager() {
                     </nav>
                 </div>
             </div>
+            {isShowFormEdit ? <FormUpdateProduct setSearchName={setSearchName} loadProduct={loadProduct} productEdit={productEdit} setIsShowFormEdit={setIsShowFormEdit} /> : <></>}
             {isShow ? <FormAddProduct loadProduct={loadProduct} isShow={isShow} setIsShow={setIsShow} /> : null}
         </>
     )

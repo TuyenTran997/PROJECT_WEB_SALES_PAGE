@@ -4,7 +4,7 @@ import { notification } from 'antd'
 
 export default function UserHeader() {
     const navigate = useNavigate()
-    // const userLogin = JSON.parse(localStorage.getItem('user-login'));
+    const userLogin = JSON.parse(localStorage.getItem('user-login')) || {};
     const handleLogout = () => {
         localStorage.removeItem('user-login')
     }
@@ -20,23 +20,25 @@ export default function UserHeader() {
             <li className="header__navbar-item header__navbar-user">
                 <img
                     className="header__navbar-user-img"
-                    src=''
+                    src={`http://localhost:8000/api/v1/users/uploads/images/${userLogin.image}`}
                     alt=""
                 />
-                <span className="header__navbar-user-name"></span>
+                <span className="header__navbar-user-name" style={{ marginRight: '10px' }}>
+                    {userLogin.userName}
+                </span>
                 <i className="fas fa-angle-down"></i>
                 <ul className="header__navbar-user-menu">
                     <li className="header__navbar-user-item">
-                        <a href="">Tài khoản của tôi</a>
+                        <a href="#">Tài khoản của tôi</a>
                     </li>
                     <li className="header__navbar-user-item">
-                        <a href="">Địa chỉ của tôi</a>
+                        <a href="#">Địa chỉ của tôi</a>
                     </li>
                     <li className="header__navbar-user-item">
-                        <a href="">Đơn mua</a>
+                        <a href="#">Đơn mua</a>
                     </li>
                     <li className="header__navbar-user-item header__navbar-user-item-separate" >
-                        <a href="">Đăng xuất</a>
+                        <a href="#">Đăng xuất</a>
                     </li>
                 </ul>
             </li>

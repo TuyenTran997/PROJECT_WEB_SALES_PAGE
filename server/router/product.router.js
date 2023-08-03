@@ -141,7 +141,6 @@ productRouter.post('/', upload.single('image'), (req, res) => {
     const productId = uuidv4();
     const productPost = req.body;
     const image = req.file.filename;
-    console.log(image);
     const product = [productId, productPost.productName, productPost._description, productPost.model, productPost.product_code, productPost.price, productPost.percent_discount, image, productPost.categoryId, productPost.classifyId, productPost.createdDate, productPost.createdBy, productPost.modifileDate, productPost.modifileBy, productPost._status]
     try {
         database.query('call Proc_product_createProduct(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)', product, (err, result) => {
@@ -155,6 +154,33 @@ productRouter.post('/', upload.single('image'), (req, res) => {
             return res.status(201).json({
                 status: 201,
                 message: "Thêm mới sản phẩm thành công"
+            })
+        })
+    } catch (error) {
+        return res.status(500).json({
+            status: 500,
+            messageDEV: "Lỗi hệ thống",
+            error: error
+        })
+    }
+})
+
+productRouter.put('/', upload.single('image'), (req, res) => {
+    const productEdit = req.body;
+    const image = req.file.filename;
+    const product = [productEdit.productName, productEdit._description, productEdit.model, productEdit.product_code, productEdit.price, productEdit.percent_discount, image, productEdit.modifileDate, productEdit.modifileBy, productEdit._status, productEdit.productId]
+    try {
+        database.query('call Proc_product_updateProduct(?,?,?,?,?,?,?,?,?,?,?)', product, (err, result) => {
+            if (err) {
+                return res.status(500).json({
+                    status: 500,
+                    messageDEV: "Lỗi hệ thống",
+                    error: err
+                })
+            }
+            return res.status(200).json({
+                status: 200,
+                message: "Cập nhật thông tin sản phẩm thành công"
             })
         })
     } catch (error) {
@@ -192,6 +218,8 @@ productRouter.delete('/:id', (req, res) => {
             error: error
         });
     }
-})
+});
+
+
 
 module.exports = productRouter;

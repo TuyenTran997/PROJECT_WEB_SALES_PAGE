@@ -109,7 +109,6 @@ export default function Admin() {
                         <UserManager />
                         <Category />
                         <ProductManager />
-
                         <FormClassity />
 
 

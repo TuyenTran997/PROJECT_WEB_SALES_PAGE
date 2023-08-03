@@ -12,7 +12,7 @@ function App() {
     <div>
       {/* <Login /> */}
       <Admin />
-      <User />
+      {/* <User /> */}
     </div>
   )
 }
