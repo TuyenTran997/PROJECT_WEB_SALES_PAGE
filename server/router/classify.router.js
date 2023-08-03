@@ -40,10 +40,8 @@ classifyRouter.post('/', (req, res) => {
 
 classifyRouter.get('/', (req, res) => {
     const searchName = req.query.searchName;
-    console.log(searchName);
     const limit = +req.query.LIMIT;
     const page = +req.query.OFFSET;
-    // offset là vị trí bắt đầu lấy
     const offset = (page - 1) * limit;
 
     try {

@@ -1,12 +1,11 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { calculate, changeDate1, changeNumber } from '../../formData/formData'
 
-export default function FormProductAll({ arrProduct, handleChangeProductId, buyProduct }) {
+export default function FormProductAll({ arrProduct, handleChangeProductId, buyProduct, loadArrCart }) {
 
     const userLogin = JSON.parse(localStorage.getItem('user-login'))
     let userId = userLogin.userId;
     let userName = userLogin.userName;
-    const [quantity, setQuantity] = useState(1);
     const createdDate = changeDate1(new Date());
     const createdBy = 'Trần Công Tuyến';
     const modifileDate = changeDate1(new Date());
@@ -59,52 +58,37 @@ export default function FormProductAll({ arrProduct, handleChangeProductId, buyP
                 <div className="grid__row">
                     {arrProduct.map((item, index) => {
                         return <div className="grid__collum-2-4" key={index}>
-                            <a className="home-product-item" href="##" onClick={() => handleChangeProductId(item.productId)}>
-                                <div
-                                    className="home-product-item__img"
-                                    style={{
-                                        backgroundImage:
-                                            `url(http://localhost:8000/api/v1/products/uploads/images/${item.image})`
-                                    }}
-                                ></div>
-                                <h4 className="home-product-item__name">
-                                    {item.productName} ({item._description})
-                                </h4>
-                                <div className="home-product-item__price">
-                                    <span className="home-product-item__price-old">
-                                        {changeNumber(item.price)}
-                                    </span>
-                                    <span className="home-product-item__price-curent">
-                                        {changeNumber(calculate(item.price, item.percent_discount))}
-                                    </span>
-                                </div>
-                                <div className="home-product-item__action">
-                                    {/* <span className="home-product-item__like home-product-item__like-liked">
-                                        <i className="home-product-item__icon-fill fa-solid fa-heart" />
-                                        <i className="home-product-item__icon-empty fa-regular fa-heart" />
-                                    </span> */}
-                                    {/* <div className="home-product-item__rating">
-                                            <i className="home-product-item__start-gold fa-sharp fa-solid fa-star" />
-                                            <i className="home-product-item__start-gold fa-sharp fa-solid fa-star" />
-                                            <i className="home-product-item__start-gold fa-sharp fa-solid fa-star" />
-                                            <i className="home-product-item__start-gold fa-sharp fa-solid fa-star" />
-                                            <i className="fa-sharp fa-solid fa-star" />
-                                        </div> */}
-
-                                    <span className="home-product-item__sold">{item._status === 0 ? 'Còn hàng' : 'Hết hàng'}</span>
-                                    <button className='btn-buy' onClick={() => buyProduct({ ...item, userId: userId, quantity: quantity, price_percent_discount: calculate(item.price, item.percent_discount), userName: userName, createdDate: createdDate, createdBy: createdBy, modifileDate, modifileBy: modifileBy })}>Đặt hàng</button>
-                                </div>
-                                {/* <div className="home-product-item__origin">
-                                        <span className="home-product-item__brand">Whoo</span>
-                                        <span className="home-product-item__origin-name">
-                                            Hàn Quóc
+                            <div className="home-product-item">
+                                <a href="##" onClick={() => handleChangeProductId(item.productId)}>
+                                    <div
+                                        className="home-product-item__img"
+                                        style={{
+                                            backgroundImage:
+                                                `url(http://localhost:8000/api/v1/products/uploads/images/${item.image})`
+                                        }}
+                                    ></div>
+                                    <h4 className="home-product-item__name">
+                                        {item.productName} ({item._description})
+                                    </h4>
+                                    <div className="home-product-item__price">
+                                        <span className="home-product-item__price-old">
+                                            {changeNumber(item.price)}
                                         </span>
-                                    </div> */}
+                                        <span className="home-product-item__price-curent">
+                                            {changeNumber(calculate(item.price, item.percent_discount))}
+                                        </span>
+                                    </div>
+                                </a>
+                                <div className="home-product-item__action">
+                                    <span className="home-product-item__sold">{item._status === 0 ? 'Còn hàng' : 'Hết hàng'}</span>
+                                    <button className='btn-buy' onClick={() => buyProduct({ ...item, userId: userId, quantity: 1, price_percent_discount: calculate(item.price, item.percent_discount), userName: userName, createdDate: createdDate, createdBy: createdBy, modifileDate, modifileBy: modifileBy })}>Đặt hàng</button>
+                                </div>
                                 <div className="home-product-item__favourite">
                                     <i className="fa-solid fa-check" />
                                     <span>Yêu thích</span>
                                 </div>
-                            </a>
+                            </div>
+
                         </div>
                     })}
 

@@ -13,7 +13,6 @@ cartRouter.post('/', (req, res) => {
     const productChoose = req.body;
     const cartId = productChoose.userId;
     const productBuy = [cartId, productChoose.userId, productChoose.userName, productChoose.productId, productChoose.quantity, productChoose.price_percent_discount, productChoose.createdDate, productChoose.createdBy, productChoose.modifileDate, productChoose.modifileBy]
-    console.log(productBuy);
     try {
         database.query('call Proc_cart_addProductInCart(?,?,?,?,?,?,?,?,?,?)', productBuy, (err, result) => {
             if (err) {
@@ -93,9 +92,8 @@ cartRouter.delete('/', (req, res) => {
 
 })
 cartRouter.put('/', (req, res) => {
-    const quantity = parseInt(req.params.quantity)
+    const quantity = parseInt(req.query.quantity)
     const { productId, userId } = req.query;
-    console.log(typeof quantity, '--', productId, '--', userId);
     try {
         database.query('call Proc_cart_updateCartProduct(?,?,?)', [quantity, productId, userId], (err, result) => {
             if (err) {

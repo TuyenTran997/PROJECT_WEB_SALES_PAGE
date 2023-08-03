@@ -2,15 +2,33 @@ import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { changeNumber } from '../../formData/formData';
 
-export default function Cart({ totalRecord, total, handleDeleteProduct, arrCart }) {
+export default function Cart({ totalRecord, total, handleDeleteProduct, arrCart, loadArrCart, totalProduct, buyProduct }) {
 
     const userLogin = JSON.parse(localStorage.getItem('user-login'))
-    const handleUpdateProduct = async () => {
-        confirm('Sản phẩm đã có trong giỏ hàng, bạn có muốn thêm vào giỏ hàng nữa không?')
-        await axios.put(`http://localhost:8000/api/v1/carts?quantity=${quantity}&productId=${productBuy.productId}&userId=${userLogin.userId}`)
-            .then(res => { console.log(res); })
-            .catch(err => { console.log(err); });
+    const [quantity, setQuantity] = useState(0);
+    const [productId, setProductId] = useState('');
+    const handleEditQuantity = (quantity1, productId1) => {
+        let quantity;
+        let productId;
+        quantity = quantity1;
+        productId = productId1;
+        setQuantity(quantity);
+        setProductId(productId);
     }
+    const handleUpdateProduct = async () => {
+        if (quantity !== 0 && productId !== '') {
+            await axios.put(`http://localhost:8000/api/v1/carts?quantity=${quantity}&productId=${productId}&userId=${userLogin.userId}`)
+                .then(res => { console.log(res); })
+                .catch(err => { console.log(err); });
+            loadArrCart();
+        }
+    }
+
+    useEffect(() => {
+        buyProduct();
+        handleUpdateProduct()
+    }, [quantity, productId])
+
 
 
     return (
@@ -43,10 +61,10 @@ export default function Cart({ totalRecord, total, handleDeleteProduct, arrCart 
                         {changeNumber(item.price_percent_discount)}
                     </div>
                     <div className="grid__collum-1 product-item-quatity">
-                        <input type="number" min={1} value={item.quantity} />
+                        <input type="number" min={1} defaultValue={item.quantity} onChange={(e) => handleEditQuantity(e.target.value, item.productId)} />
                     </div>
                     <div className="grid__collum-1">
-                        {changeNumber(item.price_percent_discount * item.quantity)}
+                        {quantity !== 0 && productId === item.productId ? changeNumber(quantity * item.price_percent_discount) : changeNumber(item.price_percent_discount * item.quantity)}
                     </div>
                     <div className="grid__collum-1" >
                         <button className='btn-delete' onClick={() => handleDeleteProduct(item.productId)}>Xóa</button>
@@ -55,7 +73,7 @@ export default function Cart({ totalRecord, total, handleDeleteProduct, arrCart 
             })}
             <div className="summary-section">
                 <div className="summary-heading">Thông tin đơn hàng:</div>
-                <p className="summary-label">Số sản phẩm ( {totalRecord} sản phẩm):</p>
+                <p className="summary-label">{totalRecord} mặt hàng ( {totalProduct} sản phẩm):</p>
                 <p className="summary-value">{changeNumber(total)}₫</p>
                 <p className="summary-label">Phí giao hàng:</p>
                 <p className="summary-value">miễn phí</p>

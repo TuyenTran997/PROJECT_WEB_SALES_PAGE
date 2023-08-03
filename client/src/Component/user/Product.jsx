@@ -2,7 +2,7 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { calculate, changeDate1, changeNumber } from '../../formData/formData';
 
-export default function Product({ productId, buyProduct, quantity, setQuantity }) {
+export default function Product({ productId, buyProduct, quantity, setQuantity, loadArrCart }) {
     const userLogin = JSON.parse(localStorage.getItem('user-login'))
     let userId = userLogin.userId;
     let userName = userLogin.userName;
@@ -25,7 +25,9 @@ export default function Product({ productId, buyProduct, quantity, setQuantity }
             })
             .catch(err => console.error(err))
     };
-
+    useEffect(() => {
+        loadArrCart()
+    }, [quantity])
     useEffect(() => loadProductData(), [productId]);
     return (
         <>

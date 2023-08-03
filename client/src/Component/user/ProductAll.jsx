@@ -4,7 +4,7 @@ import { calculate, changeNumber } from '../../formData/formData';
 import FormProductAll from './FormProductAll';
 import Product from './Product';
 
-export default function ProductAll({ buyProduct, quantity, setQuantity }) {
+export default function ProductAll({ buyProduct, quantity, setQuantity, loadArrCart }) {
 
     const [arrProduct, setArrProduct] = useState([])
     const listChooseRecord = [
@@ -111,8 +111,8 @@ export default function ProductAll({ buyProduct, quantity, setQuantity }) {
                 </nav>
             </div>
             <div className="grid__collum-10">
-                <FormProductAll arrProduct={arrProduct} handleChangeProductId={handleChangeProductId} buyProduct={buyProduct} />
-                {productId === null ? <></> : <Product productId={productId} buyProduct={buyProduct} quantity={quantity} setQuantity={setQuantity} />}
+                <FormProductAll arrProduct={arrProduct} handleChangeProductId={handleChangeProductId} buyProduct={buyProduct} loadArrCart={loadArrCart} />
+                {productId === null ? <></> : <Product productId={productId} buyProduct={buyProduct} quantity={quantity} setQuantity={setQuantity} loadArrCart={loadArrCart} />}
             </div>
         </div>
     )
