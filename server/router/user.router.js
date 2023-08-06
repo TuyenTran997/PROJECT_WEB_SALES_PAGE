@@ -8,11 +8,16 @@ const path = require('path');
 const userRoute = express.Router();
 const cors = require('cors');
 const database = require('../connection/connectMYSQL');
+const cookie = require('cookie-parser')
+const jwt = require('jsonwebtoken')
+
 const { checkDataEmpty, validateEmail, checkDataEmptyLogin } = require('../middleware/validateData');
+
+
 userRoute.use(bodyParser.json());
 userRoute.use(bodyParser.urlencoded({ extended: true }));
 userRoute.use(cors({ credentials: true, origin: true }));
-
+userRoute.use(cookie());
 
 const storage = multer.diskStorage({
     destination: function (req, file, callback) {
@@ -140,7 +145,6 @@ userRoute.post('/', checkDataEmpty, validateEmail, (req, res) => {
 // kiểm tra thông tin đăng nhập của user
 userRoute.post('/login', checkDataEmptyLogin, validateEmail, (req, res) => {
     const { email, _password } = req.body;
-
     try {
         database.query('call Proc_user_loginUser(?)', email, (err, result) => {
             if (err) {
@@ -159,6 +163,10 @@ userRoute.post('/login', checkDataEmptyLogin, validateEmail, (req, res) => {
                 } else {
                     const isMatch = bcrypt.compareSync(_password, user[0]._password)
                     if (isMatch) {
+                        const user_token = jwt.sign({ userId: user[0].userId, roleId: user[0].roleId }, 'user-secret-key', { expiresIn: '1day' })
+                        // const role_token = jwt.sign({ roleId: user[0].roleId }, 'role-secret-key', { expiresIn: '1day' })
+                        res.cookie('user_token', user_token, { httpOnly: true })
+                        // res.cookie('role_token', role_token, { httpOnly: true })
                         return res.status(200).json({
                             status: 200,
                             message: 'Bạn đã đăn nhập thành công',
@@ -180,6 +188,35 @@ userRoute.post('/login', checkDataEmptyLogin, validateEmail, (req, res) => {
             error: error
         });
     }
+})
+
+userRoute.get('/user/login', (req, res) => {
+    // console.log(req.cookies);
+    const user_token = req.cookies.user_token;
+    console.log(user_token);
+    jwt.verify(user_token, 'user-secret-key', (err, decoded) => {
+        if (err) {
+            return res.json({
+                status: 401,
+                Message: 'Authentication failed'
+            })
+        } else {
+            database.query(`call Proc_user_gerUserById(?)`, decoded.userId, (error, result) => {
+                if (error) {
+                    return res.status(500).json({
+                        status: 500,
+                        messageDEV: 'Error getting user',
+                        error: error
+                    })
+                } else {
+                    return res.status(200).json({
+                        status: 200,
+                        data: result[0]
+                    });
+                }
+            })
+        }
+    })
 })
 
 // cập nhật thông tin user
@@ -209,6 +246,11 @@ userRoute.put('/', upload.single('image'), (req, res) => {
             error: error
         });
     }
+})
+
+userRoute.get('/logout', (req, res) => {
+    res.clearCookie('user_token')
+    return res.json({ Status: 'Success' })
 })
 
 module.exports = userRoute;

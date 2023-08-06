@@ -53,6 +53,10 @@
     margin-bottom: 20px;
 }
 
+.navbar-list-item.active {
+    background-image: linear-gradient(0, #9ba8e0, #294adf);
+    border-radius: 5px;
+}
 
 .navbar-list-item {
     height: 40px;
@@ -60,6 +64,8 @@
     display: flex;
     align-items: center;
     padding-left: 10px;
+    border-bottom: 1px solid;
+    width: 93%;
 }
 
 .navbar-list-item a {
@@ -68,7 +74,7 @@
 
 
 .navbar-list-item:hover {
-    background-image: linear-gradient(0, #55596b, #294adf);
+    background-image: linear-gradient(0, #9ba8e0, #294adf);
     border-radius: 5px;
 }
 

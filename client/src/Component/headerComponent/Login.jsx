@@ -10,16 +10,18 @@ export default function Login() {
         email: email,
         _password: password,
     }
-
-    const hadndleLogin = async (e) => {
+    axios.defaults.withCredentials = true;
+    const handleLogin = async (e) => {
         e.preventDefault();
         await axios.post('http://localhost:8000/api/v1/users/login', user)
             .then(res => {
                 if (res.status === 200) {
                     if (res.data.data.roleId === 0) {
                         localStorage.setItem('user-login', JSON.stringify(res.data.data));
+                        navigate('/admin')
                     } else {
                         localStorage.setItem('user-login', JSON.stringify(res.data.data));
+                        navigate('/')
                     }
                 }
             })
@@ -39,7 +41,7 @@ export default function Login() {
                                 <h3 className="auth-form__heading">Đăng nhập</h3>
                                 <span className="auth-form__switch-btn" onClick={() => { navigate('/register') }}>Đăng ký</span>
                             </div>
-                            <form method='POST' onSubmit={hadndleLogin}>
+                            <form method='POST' onSubmit={handleLogin}>
                                 <div className="auth-form__form">
                                     <div className="auth-form__group">
                                         <input type="email" className="auth-form__input" placeholder="Email của bạn" value={email} onChange={(e) => setEmail(e.target.value)} />

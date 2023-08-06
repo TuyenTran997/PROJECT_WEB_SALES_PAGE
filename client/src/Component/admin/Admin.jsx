@@ -1,20 +1,29 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Category from './Category'
 import UserManager from './UserManager'
 import ProductManager from './ProductManager'
 import FormAddProduct from './FormAddProduct'
 import FormAddUser from './FormAddUser'
-import { Link, Outlet, Route, Routes, useNavigate } from 'react-router-dom'
+import { Link, NavLink, Outlet, Route, Routes, useNavigate, useParams } from 'react-router-dom'
 import FormCategory from './FormCategory'
 import FormClassity from './FormClassity'
 
 export default function Admin() {
     const navigate = useNavigate()
-    // const userLogin = JSON.parse(localStorage.getItem('user-login'));
+    const userLogin = JSON.parse(localStorage.getItem('user-login'));
     const handleLogout = () => {
         localStorage.removeItem('user-login')
         navigate('/login')
     }
+
+    const list = [
+        { id: 1, value: 'Manger User', path: '' },
+        { id: 2, value: 'Category', path: '/category' },
+        { id: 3, value: 'Classify', path: '/classify' },
+        { id: 4, value: 'Product Manager', path: '/product' }
+    ]
+
+    const [check, setCheck] = useState(1);
 
     return (
         <>
@@ -27,30 +36,16 @@ export default function Admin() {
                     </div>
                     <ul className="navbar-list">
                         <span className='navbar-list-title'>DANH MỤC</span>
-                        <li className="navbar-list-item">
-                            <a className="s" href="#">
-                                <i className="" />
-                                <span className="">Dashboard</span>
-                            </a>
-                        </li>
-                        <li className="navbar-list-item">
-                            <a className="" href="#">
-                                <i className="" />
-                                <span className="">Category</span>
-                            </a>
-                        </li>
-                        <li className="navbar-list-item">
-                            <a className="" href="#">
-                                <i className="" data-feather="square" />{" "}
-                                <span className="">Product </span>
-                            </a>
-                        </li>
-                        <li className="navbar-list-item">
-                            <a className="" href="#">
-                                <i className="" data-feather="user" />{" "}
-                                <span className="">Manager User</span>
-                            </a>
-                        </li>
+                        {list.map((item, index) => {
+                            return (
+                                <NavLink style={{ textDecoration: 'none' }} className="link" to={`/admin${item.path}`} key={index}>
+                                    <li className={`navbar-list-item ${check === item.id ? 'active' : ''}`} onClick={() => setCheck(item.id)}>
+                                        <span className="">{item.value}</span>
+                                    </li>
+                                </NavLink>
+                            )
+                        })}
+
                     </ul>
                 </nav >
                 <div className="main" style={{ width: '100%' }}>
@@ -65,8 +60,8 @@ export default function Admin() {
                                 <div className='navbar-item__info-admin'>
                                     <div className='navbar__info-admin'>
                                         <a href="">
-                                            <img src='./public/assets/img/logo.png' alt='' />
-                                            <span className="text-dark"></span>
+                                            <img src={`http://localhost:8000/api/v1/users/uploads/images/${userLogin.image}`} alt='' />
+                                            <span className="text-dark">{userLogin.userName}</span>
                                             <i className="fas fa-angle-down"></i>
                                         </a>
                                     </div>
@@ -96,7 +91,7 @@ export default function Admin() {
                                             </a>
                                         </li>
                                         <li onClick={() => handleLogout()}>
-                                            <Link className="" href="#">
+                                            <Link className="" to="/login">
                                                 Đăng xuất
                                             </Link>
                                         </li>
@@ -106,12 +101,12 @@ export default function Admin() {
                         </div>
                     </nav>
                     <main className="content">
-                        <UserManager />
-                        <Category />
-                        <ProductManager />
-                        <FormClassity />
-
-
+                        {/* {type === null && <UserManager />} */}
+                        {/* <UserManager /> */}
+                        {/* <Category /> */}
+                        {/* {type === 'product-manager' && <ProductManager />} */}
+                        {/* <FormClassity /> */}
+                        <Outlet />
                     </main>
                     <footer className="footer-admin">
                         <div className="container-fluid">

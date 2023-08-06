@@ -8,6 +8,7 @@ import axios from 'axios';
 import ShowProduct from './ShowProduct';
 import FormUpdateInfo from './FormUpdateInfo';
 import ModalLayout from '../headerComponent/ModalLayout';
+import { Link, NavLink, Outlet } from 'react-router-dom';
 
 
 export default function User() {
@@ -87,21 +88,92 @@ export default function User() {
             .catch(err => console.log(err));
     }
 
-    useEffect(() => {
-        loadArrCart();
-    }, [])
+    const [arrCategory, setArrCategory] = useState([]);
+    const loadArrCategory = () => {
+        axios.get('http://localhost:8000/api/v1/categories/category/all')
+            .then(res => {
+                if (res.data.status === 200) {
+                    setArrCategory(res.data.data);
+                }
+            })
+            .catch(err => console.log(err));
+    }
 
     useEffect(() => {
         loadArrCart();
-        // loadListProduct();
+        loadArrCategory();
     }, [])
+
+
     return (
         <>
             <div className="app">
                 <Header />
                 <div className="app__container">
                     <div className="grid">
-                        <ShowProduct />
+                        <div className="grid__row app__content">
+                            <div className="grid__collum-2">
+                                <nav className="category">
+                                    <h3 className="category__heading">Danh mục</h3>
+                                    <ul className="category-list">
+                                        {arrCategory.map((item, index) => {
+                                            return (
+                                                <NavLink to={`/category/${item.categoryId}`} className="category-item__link" key={index}>
+                                                    <li className="category-item category-item--active"  >
+                                                        {item.categoryName}
+                                                    </li>
+                                                </NavLink>
+                                            )
+                                        })}
+                                    </ul>
+                                </nav>
+                            </div>
+                            <div className="grid__collum-10">
+                                <div className="home-filter">
+                                    <span className="home-filter__label">Sắp xếp theo</span>
+                                    <button className="btn home-filter__btn">Phổ biến</button>
+                                    <button className="btn btn--primary home-filter__btn">
+                                        Mới nhất
+                                    </button>
+                                    <button className="btn home-filter__btn">Bán chạy</button>
+                                    <div className="select-input">
+                                        <span className="select-input__label">Giá</span>
+                                        <i className="select-input__icon fa-solid fa-chevron-down" />
+                                        <ul className="select-input__list">
+                                            <li className="select-input__item">
+                                                <a href="#" className="select-input__link">
+                                                    Giá thấp đến cao
+                                                </a>
+                                            </li>
+                                            <li className="select-input__item">
+                                                <a href="#" className="select-input__link">
+                                                    {" "}
+                                                    Giá cao đến thấp
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div className="home-filter__page">
+                                        <span className="home-filter__page-num">
+                                            <span className="home-filter__page-curent">1</span>/14
+                                        </span>
+                                        <div className="home-filter__page-control">
+                                            <a
+                                                href="#"
+                                                className="home-filter__page--btn home-filter__page--btn-disable"
+                                            >
+                                                <i className="home-filter__page-icon fa-solid fa-chevron-left" />
+                                            </a>
+                                            <a href="#" className="home-filter__page--btn">
+                                                <i className="home-filter__page-icon fa-solid fa-chevron-right" />
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <Outlet />
+                            </div>
+                        </div>
+                        {/* <ShowProduct /> */}
                         {/* <ProductAll buyProduct={buyProduct} loadArrCart={loadArrCart} /> */}
                         {/* <Cart totalRecord={totalRecord} totalProduct={totalProduct} arrCart={arrCart} total={total} handleDeleteProduct={handleDeleteProduct} loadArrCart={loadArrCart} buyProduct={buyProduct} /> */}
                     </div>

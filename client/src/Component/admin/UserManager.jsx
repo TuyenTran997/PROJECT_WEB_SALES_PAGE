@@ -106,7 +106,7 @@ export default function UserManager() {
                                     <td>{item.userName}</td>
                                     <td>{item.email}</td>
                                     <td>
-                                        <img width="40%" src="img/avatars/avatar-3.jpg" alt="avt" />
+                                        <img width="40%" src={`http://localhost:8000/api/v1/products/uploads/images/${item.image}`} alt="avt" style={{ borderRadius: '50%', width: '30px' }} />
                                     </td>
                                     <td>{item.gender === 0 ? 'Nam' : 'Nữ'}</td>
                                     <td>{changeDate(item.dateOfbirth)}</td>

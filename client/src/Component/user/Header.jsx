@@ -4,6 +4,7 @@ import HelpHeader from './HelpHeader'
 import NotifyHeader from './NotifyHeader'
 import SearchHeader from './SearchHeader'
 import CartHeader from './CartHeader'
+import { NavLink } from 'react-router-dom'
 
 export default function Header() {
     return (
@@ -15,21 +16,21 @@ export default function Header() {
                             Vào cửa hang trên ứng dụng F8-Shop
                             <div className="header__qr">
                                 <img
-                                    src="./assets/img/QRcode.png"
+                                    src="http://localhost:8000/api/v1/products/uploads/images/QRcode.png"
                                     alt="QR"
                                     className="header__qr-img"
                                 />
                                 <div className="header__qr-apps">
                                     <a href="" className="header__pr-link">
                                         <img
-                                            src="./assets/img/app_store.png"
+                                            src="http://localhost:8000/api/v1/products/uploads/images/app_store.png"
                                             alt="App Store"
                                             className="header__qr-dowload-img"
                                         />
                                     </a>
                                     <a href="" className="header__pr-link">
                                         <img
-                                            src="./assets/img/gg_play.png"
+                                            src="http://localhost:8000/api/v1/products/uploads/images/gg_play.png"
                                             alt="Goodle Play"
                                             className="header__qr-dowload-img"
                                         />
@@ -61,12 +62,9 @@ export default function Header() {
                 {/* Header with search */}
                 <div className="header-with-search">
                     <div className="header__logo">
-                        <a href="/" className="header__logo-link">
-
+                        <NavLink to="/" className="header__logo-link">
                             <h3 className="header__logo-img">TT_SALES_PAGE</h3>
-                            {/* <img src="./assets/img/logoTT.jpg" alt="" style={{ width: "60px" }} /> */}
-
-                        </a>
+                        </NavLink>
                     </div>
 
                     <SearchHeader />

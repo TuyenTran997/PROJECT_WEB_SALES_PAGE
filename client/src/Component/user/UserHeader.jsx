@@ -7,6 +7,7 @@ export default function UserHeader() {
     const userLogin = JSON.parse(localStorage.getItem('user-login')) || {};
     const handleLogout = () => {
         localStorage.removeItem('user-login')
+        navigate('/login')
     }
 
     return (
@@ -37,8 +38,8 @@ export default function UserHeader() {
                     <li className="header__navbar-user-item">
                         <a href="#">Đơn mua</a>
                     </li>
-                    <li className="header__navbar-user-item header__navbar-user-item-separate" >
-                        <a href="#">Đăng xuất</a>
+                    <li className="header__navbar-user-item header__navbar-user-item-separate" onClick={handleLogout} >
+                        <a href="">Đăng xuất</a>
                     </li>
                 </ul>
             </li>
